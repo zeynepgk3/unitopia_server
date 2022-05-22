@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  node_backend:
+    container_name: unitopia_server
+    image: unitopia_server:0.0.5
+    build:
+      context: .
+    ports:
+      - "3001:3001"
+    environment:
+      - EXTERNAL_PORT=3001
+      - PGUSER=postgres
+      - PGPASSWORD=111
+      - PGDATABASE=unitopia_db
+      - PGHOST=node_db
+    depends_on:
+      - node_db
+
+  node_db:
+    container_name: node_db
+    image: "postgres:12"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=111
+      - POSTGRES_DB=unitopia_db
+    volumes:
+      - nps_data:/var/lib/postgresql/data 
+
+volumes:
+  nps_data: {}
+    
