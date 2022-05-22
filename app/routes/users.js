@@ -5,6 +5,7 @@ router
   .get('/', controller.getAll)
   .get('/:id', controller.getOne)
   .post('/', controller.createOne)
+  .post('/login',controller.login)
   .put('/:id', controller.updateOne)
   .delete('/:id', controller.deleteOne);
 
