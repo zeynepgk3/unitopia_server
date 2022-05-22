@@ -3,7 +3,7 @@ version: '3.8'
 services:
   node_backend:
     container_name: unitopia_server
-    image: unitopia_server:0.0.5
+    image: unitopia_server:0.0.6
     build:
       context: .
     ports:

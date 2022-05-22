@@ -12,8 +12,8 @@ const Blog = db.define('blogs',{
     type: Sequelize.STRING,
     allowNull: false,
   },
-  author: {
-    type: Sequelize.STRING,
+  authorId: {
+    type: Sequelize.INTEGER,
     allowNull: false,
   },
   content: {
@@ -22,8 +22,12 @@ const Blog = db.define('blogs',{
   },
   //approved, waiting, declined, draft
   status: {
-      type: Sequelize.STRING,
-      allowNull: false
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: 'waiting'
+  },
+  rejectReason:{
+    type: Sequelize.STRING,
   }
 
 });
