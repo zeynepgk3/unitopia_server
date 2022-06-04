@@ -1,12 +1,14 @@
 const express = require('express');
 
 const sequelize = require('./util/database');
-const User = require('./models/user');
+const cors = require('cors');
+
 
 const app = express();
 
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb', extended:true}));
+app.use(cors());
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin','*');
@@ -14,7 +16,7 @@ app.use((req, res, next) => {
   next();
 })
 
-app.use('/dev', require('./routes/dev'));
+// app.use('/announcements', require('./routes/announcements'));
 app.use('/users', require('./routes/users'));
 app.use('/blogs', require('./routes/blogs'));
 
