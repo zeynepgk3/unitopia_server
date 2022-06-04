@@ -2,11 +2,11 @@ const controller = require('../controllers/user');
 const router = require('express').Router();
 
 router
-  .get('/', controller.getAll)
-  .get('/:id', controller.getOne)
-  .post('/', controller.createOne)
+  .get('/getAll', controller.getAll)
+  .get('/getOne/:id', controller.getOne)
+  .post('/create', controller.createOne)
   .post('/login',controller.login)
-  .put('/:id', controller.updateOne)
-  .delete('/:id', controller.deleteOne);
+  .put('/update/:id', controller.updateOne)
+  .delete('/delete/:id', controller.deleteOne);
 
 module.exports = router;
