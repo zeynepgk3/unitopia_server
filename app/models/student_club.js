@@ -1,35 +1,29 @@
 const Sequelize = require('sequelize');
 const db = require('../util/database');
 
-const Blog = db.define('blogs',{
+const StudentClub = db.define('student_clubs',{
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     allowNull: false,
     primaryKey: true
   },
-  header: {
+  name: {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  authorId: {
-    type: Sequelize.INTEGER,
+  chairman: {
+    type: Sequelize.STRING,
     allowNull: false,
   },
-  content: {
-    type: Sequelize.TEXT,
+  consultant: {
+    type: Sequelize.STRING,
     allowNull: false
   },
-  //approved, waiting, declined, draft
-  status: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    defaultValue: 'waiting'
-  },
-  rejectReason:{
-    type: Sequelize.STRING,
+  presentation: {
+    type: Sequelize.TEXT,
+    allowNull: false
   }
-
 });
 
-module.exports = Blog;
+module.exports = StudentClub;

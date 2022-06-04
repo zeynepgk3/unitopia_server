@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../util/database');
 
-const Blog = db.define('blogs',{
+const Announcement = db.define('announcements',{
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -20,16 +20,6 @@ const Blog = db.define('blogs',{
     type: Sequelize.TEXT,
     allowNull: false
   },
-  //approved, waiting, declined, draft
-  status: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    defaultValue: 'waiting'
-  },
-  rejectReason:{
-    type: Sequelize.STRING,
-  }
-
 });
 
-module.exports = Blog;
+module.exports = Announcement;

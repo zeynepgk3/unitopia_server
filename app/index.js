@@ -16,9 +16,14 @@ app.use((req, res, next) => {
   next();
 })
 
-// app.use('/announcements', require('./routes/announcements'));
 app.use('/users', require('./routes/users'));
 app.use('/blogs', require('./routes/blogs'));
+app.use('/announcements', require('./routes/announcements'));
+app.use('/studentclubs', require('./routes/student_clubs'));
+app.use('/comments', require('./routes/student_clubs'));
+
+
+
 
 (async () =>{
   try {

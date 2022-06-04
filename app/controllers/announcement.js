@@ -1,8 +1,10 @@
-const Blog = require('../models/blog');
+const Announcement = require('../models/announcement');
+const User = require('../models/user');
+
 
 exports.getAll = async (req, res, next) => {
   try {
-    const all = await Blog.findAll();
+    const all = await Announcement.findAll();
     return res.status(200).json(all);
   } catch (error) {
     return res.status(500).json(error);
@@ -11,7 +13,7 @@ exports.getAll = async (req, res, next) => {
 
 exports.getOne = async (req, res, next) => {
   try {
-    const blog = await Blog.findByPk(req.params.id);
+    const blog = await Announcement.findByPk(req.params.id);
     return res.status(200).json(blog);
   } catch (error) {
     return res.status(500).json(error);
@@ -20,7 +22,7 @@ exports.getOne = async (req, res, next) => {
 
 exports.getAllByUser = async (req, res, next) => {
   try {
-    const blogsFromOneAuthor = await Blog.findAll({where:{authorId: req.params.id}});
+    const blogsFromOneAuthor = await Announcement.findAll({ where: { authorId: req.params.id } });
     return res.status(200).json(blogsFromOneAuthor);
   } catch (error) {
     return res.status(500).json(error);
@@ -30,16 +32,21 @@ exports.getAllByUser = async (req, res, next) => {
 exports.createOne = async (req, res, next) => {
   //TODO: check if authorId is not exist
   try {
-    const blogModel = {
+    const announcementModel = {
       header: req.body.header,
       authorId: req.body.authorId,
       content: req.body.content,
-      status: req.body.status,
     };
 
+    const isAuthorExist = await User.findOne({ where: { id: req.body.authorId } });
+
+    if (!isAuthorExist) {
+      return res.status(400).json("Bad badd requestt!");
+    }
+
     try {
-      const blog = await Blog.create(blogModel);
-      console.log('Blog created');
+      const blog = await Announcement.create(announcementModel);
+      console.log('Announcement created');
       return res.status(201).json(blog);
     } catch (error) {
       return res.status(500).json(error);
@@ -51,18 +58,16 @@ exports.createOne = async (req, res, next) => {
 
 exports.updateOne = async (req, res, next) => {
   try {
-    const blogModel = {
+    const announcementModel = {
       header: req.body.header,
       authorId: req.body.authorId,
       content: req.body.content,
-      status: req.body.status,
-      rejectReason: req.body.rejectReason
     };
 
     try {
-      const blog = await Blog.update(blogModel, { where: { id: req.params.id } });
-      return res.status(200).json(blog);
-    } catch (error) {}
+      const announcement = await Announcement.update(announcementModel, { where: { id: req.params.id } });
+      return res.status(200).json(announcement);
+    } catch (error) { }
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -70,8 +75,8 @@ exports.updateOne = async (req, res, next) => {
 
 exports.deleteOne = async (req, res, next) => {
   try {
-    const blog = await Blog.destroy({ where: { id: req.params.id } });
-    return res.status(200).json(blog);
+    const announcement = await Announcement.destroy({ where: { id: req.params.id } });
+    return res.status(200).json(announcement);
   } catch (error) {
     return res.status(500).json(error);
   }
