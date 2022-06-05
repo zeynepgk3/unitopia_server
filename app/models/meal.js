@@ -1,8 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../util/database');
-const multer= require('multer');
 
-const Blog = db.define('blogs',{
+const Meal = db.define('meals',{
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -12,29 +11,26 @@ const Blog = db.define('blogs',{
   image: {
     type: Sequelize.STRING,
   },
-  header: {
+  date: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    unique: true
+  },
+  breakfast: {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  authorId: {
+  lunch: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  dinner: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  calori: {
     type: Sequelize.INTEGER,
-    allowNull: false,
   },
-  content: {
-    type: Sequelize.TEXT,
-    allowNull: false
-  },
-  //approved, waiting, declined, draft
-  status: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    defaultValue: 'waiting'
-  },
-  rejectReason:{
-    type: Sequelize.STRING,
-  }
-
-
 });
 
-module.exports = Blog;
+module.exports = Meal;

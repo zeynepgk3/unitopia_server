@@ -34,15 +34,8 @@ exports.createOne = async (req, res, next) => {
   try {
     const announcementModel = {
       header: req.body.header,
-      authorId: req.body.authorId,
       content: req.body.content,
     };
-
-    const isAuthorExist = await User.findOne({ where: { id: req.body.authorId } });
-
-    if (!isAuthorExist) {
-      return res.status(400).json("Bad badd requestt!");
-    }
 
     try {
       const blog = await Announcement.create(announcementModel);
@@ -60,7 +53,6 @@ exports.updateOne = async (req, res, next) => {
   try {
     const announcementModel = {
       header: req.body.header,
-      authorId: req.body.authorId,
       content: req.body.content,
     };
 

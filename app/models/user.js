@@ -8,6 +8,9 @@ const User = db.define('users',{
     allowNull: false,
     primaryKey: true
   },
+  image: {
+    type: Sequelize.STRING,
+  },
   email: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -24,7 +27,8 @@ const User = db.define('users',{
   //admin, other
   role: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      defaultValue: 'other'
   }
 
 });

@@ -8,12 +8,11 @@ const Announcement = db.define('announcements',{
     allowNull: false,
     primaryKey: true
   },
+  image: {
+    type: Sequelize.STRING,
+  },
   header: {
     type: Sequelize.STRING,
-    allowNull: false,
-  },
-  authorId: {
-    type: Sequelize.INTEGER,
     allowNull: false,
   },
   content: {
