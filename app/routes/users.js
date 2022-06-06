@@ -20,9 +20,10 @@ const router = require('express').Router();
 router
   .get('/getAll', controller.getAll)
   .get('/getOne/:id', controller.getOne)
-  .get('logout', controller.logout)
-  .post('/signup', controller.signUp)
+  .post('/getOneByEmail', controller.getOneByEmail)
+  .get('/logout', controller.logout)
   .post('/login',controller.login)
+  .post('/signup', controller.signUp)
   .put('/update/:id', controller.updateOne)
   .delete('/delete/:id', controller.deleteOne);
 

@@ -3,53 +3,38 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const createToken = (id)=>{
-  return jwt.sign({id},'secret key',{expiresIn:3*24*60*60})
+  return jwt.sign({id},'secret key'); 
 }
+
 exports.login = async (req, res, next) => {
-  console.log("req.body ", req.body);
   try {
     const user = await User.findOne({ where: { email: req.body.email } });
-    console.log("user", user);
     if (user == null) {
       return res.status(404).send("Kullanıcı bulunamadı");
     }
     if (await bcrypt.compare(req.body.password, user.password)) {
-      // const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-      // console.log("accesstoken accesstoken accesstoken accesstoken accesstoken ");
-      // console.log(accessToken);
-      // console.log("res json accesstoken res json accesstoken res json accesstoken accesstoken accesstoken ");
-      // res.json({ accessToken: accessToken });
-      // console.log(res.json({ accessToken: accessToken }));
-      // console.log("");
 
       res.status(200).send(user);
+      maxAge=3*24*60*60*1000;
+      res.cookie('jwt',token,{httpOnly: true, maxAge:maxAge});
 
     } else {
       res.status(401).send("Giriş Başarısız");
     }
 
   } catch (error) {
-    return res.status(500).json(error);
+    // return res.status(500).json(error);
   }
 
 };
 
 exports.logout = async (req, res, next) => { //içi boşş
-  console.log("req.body ", req.body);
   try {
     const user = await User.findOne({ where: { email: req.body.email } });
-    console.log("user", user);
     if (user == null) {
       return res.status(404).send("Kullanıcı bulunamadı");
     }
     if (await bcrypt.compare(req.body.password, user.password)) {
-      // const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-      // console.log("accesstoken accesstoken accesstoken accesstoken accesstoken ");
-      // console.log(accessToken);
-      // console.log("res json accesstoken res json accesstoken res json accesstoken accesstoken accesstoken ");
-      // res.json({ accessToken: accessToken });
-      // console.log(res.json({ accessToken: accessToken }));
-      // console.log("");
 
       res.status(200).send(user);
 
@@ -81,15 +66,25 @@ exports.getOne = async (req, res, next) => {
   }
 };
 
+exports.getOneByEmail = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ where: { email: req.body.email } });
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 exports.signUp = async (req, res, next) => {
+
   const isExist = await User.findOne({ where: { email: req.body.email } });
 
   if (isExist) {
-    console.log(!isExist);
     return res.status(409).send("Kullanıcı zaten mevcut");
   }
 
   try {
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
@@ -103,9 +98,8 @@ exports.signUp = async (req, res, next) => {
     try {
       const user = await User.create(userModel);
       const token=createToken(user.id);
-      res.cookie('jwt',token,{httpOnly: true, maxAge:3*24*60*60});
-      console.log('User ', user.name, ' created');
-      return res.status(201).json({user:user.id, user:user.email, user:user.name, user:user.role});
+      res.cookie('jwt',token,{httpOnly: true, maxAge:3*24*60*60*1000});
+      return res.status(201).json({user});
     } catch (error) {
       return res.status(500).json(error);
     }

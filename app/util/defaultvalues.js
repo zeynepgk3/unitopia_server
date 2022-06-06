@@ -84,20 +84,6 @@ exports.addDefaultValues = async () => {
             }
         });
 
-        // studentClubList.map(async i => {
-        //     const blog = await Blog.findOne({ where: { id: i.id } });
-        //     if (blog == null) {
-        //         Blog.create(i);
-        //     }
-        // });
-
-        // mealList.map(async i => {
-        //     const blog = await Blog.findOne({ where: { id: i.id } });
-        //     if (blog == null) {
-        //         Blog.create(i);
-        //     }
-        // });
-
     } catch (error) {
         console.log("error: ", error);
     }

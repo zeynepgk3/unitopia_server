@@ -31,12 +31,9 @@ var createOne = async (meal) => {
 
   try {
     const meal = await Meal.create(mealModel);
-    console.log("günün menüsü eklendi ", meal);
     return meal;
   } catch (error) {
-    console.log("arıza çıktı ", error);
   }
-  console.log("ben bittim");
 };
 
 exports.updateOne = async (req, res, next) => {
@@ -80,14 +77,10 @@ exports.getWeek = async (req, res, next) => {
 
 exports.createWeek = async (req, res, next) => {
   try {
-    console.log("createWeek", req.body[1].date);
-    console.log("req.body", req.body);
     var mealList=[];
     try {
       req.body.map(i => {
-        console.log("oluşturulacak tarih ",i.date);
         mealList.add(createOne(i));
-        console.log("MEALLIST: ",mealList);
       });
       return res.status(200).json(mealList);
     } catch (error) { }

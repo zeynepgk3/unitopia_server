@@ -1,4 +1,6 @@
 const express = require('express');
+const session = require('express-session');
+
 const sequelize = require('./util/database');
 const defaultValue = require('./util/defaultvalues');
 const cors = require('cors');
@@ -41,6 +43,19 @@ app.use((req, res, next) => {
 })
 
 // app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
+app.use(
+  session({
+    secret:"very secret",
+    resave: false,
+    saveUninitialized: false,
+  })
+)
+app.get("/",(req, res) => {
+  req.session.isAuth=true;
+  res.send("Hello session tutorial");
+}
+)
+
 app.use('/users', require('./routes/users'));
 app.use('/blogs', require('./routes/blogs'));
 app.use('/announcements', require('./routes/announcements'));
@@ -55,14 +70,12 @@ app.get('/set-cookies', (req, res) => {
 });
 app.get('/read-cookies', (req, res) => {
   const cookies = req.cookies;
-  console.log('cookies', cookies);
-  console.log(req.cookies);
   res.json(cookies);
 });
 
 ; (async () => {
   try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
     app.listen(process.env.EXTERNAL_PORT || 3001);
     defaultValue.addDefaultValues();
   } catch (error) {
